@@ -53,7 +53,7 @@ public class TShirtsDB4O {
 			TSM.listOrders();
 			TSM.listArticles();
 			TSM.addArticle(7, "CALCETINES EJECUTIVOS 'JACKSON 3PK'", "gris", "45", 18.00f);
-			TSM.updatePriceArticle(7, 12.00);
+			TSM.updatePriceArticle(7, 500.59f); //12.00f
 			TSM.llistaArticlesByName("CALCETINES EJECUTIVOS 'JACKSON 3PK'");
 			TSM.deletingArticlesByName("POLO BÁSICO 'MANIA'");
 			TSM.deleteArticleById(7);
@@ -97,9 +97,11 @@ public class TShirtsDB4O {
 	 *            article
 	 * @param newPrice
 	 */
-	public void updatePriceArticle(int id, double newPrice) {
+	public void updatePriceArticle(int id, float newPrice) {
 		// TODO Auto-generated method stub
-
+		ObjectSet<Entities.Article> result = db.queryByExample(new Entities.Article(id, null, null, null, 00.00f));
+		Article article=(Article) result.next();
+		article.setRecommendedPrice(newPrice);
 	}
 
 	/**
@@ -144,7 +146,10 @@ public class TShirtsDB4O {
 	 */
 	public void deleteOrderContentById_Order(int i) {
 		// TODO Auto-generated method stub
-
+		ObjectSet<Entities.Order> result = db.queryByExample(new Entities.Order(i, null, null, null,null));
+		while(result.hasNext()) {
+			db.delete(result.next());
+		}
 	}
 
 	/**
@@ -155,7 +160,20 @@ public class TShirtsDB4O {
 	 */
 	public void retrieveOrderContentById_Order(int i) {
 		// TODO Auto-generated method stub
-
+		System.out.println("__________________________");
+		System.out.println("RETRIEVE ORDER BY ID ORDER");
+		System.out.println("--------------------------");
+		List<Order> orders = db.query(new Predicate<Order>() {
+			@Override
+			public boolean match(Order order) {
+				if (order.getIdOrder() == i)
+					return true;
+				else return false;
+			}
+		});
+		for (Order order : orders) {
+			System.out.println(order.toString());
+		}
 	}
 
 	/**
