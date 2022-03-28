@@ -87,7 +87,10 @@ public class TShirtsDB4O {
 	 */
 	public void changeCreditCardToCustomer(int i) {
 		// TODO Auto-generated method stub
-
+		ObjectSet<Entities.Customer> result = db.queryByExample(new Entities.Customer(i, null, null, null, null,null));
+		Customer customer=(Customer) result.next();
+		CreditCard creditCard = new CreditCard("1818000000Z","1144",3,2022);
+		customer.setCreditCard(creditCard);
 	}
 
 	/**
